@@ -1,9 +1,9 @@
-# Eş zamansız hata denetiminde Eş zamansızlama-Bekletme ve vaatlerin kullanımı 
+# Asenkron hata denetiminde Async-Await ya da promise kullanımı 
 
 
 ### Bir Paragraflık Açıklama
 
-Geri aramalar çoğu programlamacı aşina olmadığı, baştan sona hataları kontrol etmenin zor olduğu, bozuk kod yerleştirmeyle ilgili sorunlar yarattığı ve kod akışıyla ilgili akıl yürütmeyi zorlaştırdığı için ölçeklendirilemez. Bluebird, async, Q pack gibi kitaplıklar program akışını kontrol etmek için GERİ DÖN ve FIRLAT gibi standart kod stillerini kullanır. Özellikle, ana kodun tüm fonksiyonlardaki hatalarla başa çıkmasını sağlayan favori deneme-yakalama hatasını denetleme stilini desteklerler.
+Çoğu programcı aşına olmadığı için geri-çağırımlar pek de iyi ölçeklenemedi.Her yerde hata kontrolünün yapılmasını zorunlu kılıyor, yanlış yuvalanmış kod blokları ile uğraşmak zorunda bırakıyor ve kod akışından bir anlam çıkarmayı zor bir hale getiriyor. Async, Q pack ve BlueBird gibi Promise kütüphaneleri program akışını kontrol etmek için RETURN ve THROW kullanan standart kod sitili paketleridir. Özellikle, ana kodun tüm fonksiyonlardaki hatalarla başa çıkmasını sağlayan try-catch tarzı hata denetimini desteklerler.
 
 
 ### Kod Örneği - hataları yakalamak için vaatleri kullanmak
@@ -35,22 +35,22 @@ getData(someParameter, function(err, result){
         });
 ```
 
-### Blog Alıntısı: "Vaatlerle ilgili problemlerimiz var"
+### Blog Alıntısı: "Promiseler ile ilgili problemlerimiz var"
 blog pouchdb.com'dan
  
- > ……Aslında gerçekte, geri aramalar çok daha kötü bir şey yapar; bizi programlama dillerinde kanıksadığımız yığından mahrum bırakır. Yığın olmadan kod yazmak fren pedalı olmadan araba sürmek gibidir: uzanıp orada olmadığını anlayana kadar, ona ne kadar ihtiyacınız olduğunu anlamazsınız. Vaatlerin tüm amacı eş zamansızlığa düştüğümüzde kaybettiğimiz dil temellerini bize geri vermektir: geri dön, fırlat, ve yığın. Fakat vaatlerden avantaj sağlamak için onların nasıl kullanılması gerektiğini bilmek gerekir.
+ > ……Aslında gerçekte, geri-çağırımlar(callback) çok daha kötü bir şey yapar; bizi programlama dillerinde kanıksadığımız yığından mahrum bırakır. Yığın olmadan kod yazmak fren pedalı olmadan araba sürmek gibidir: uzanıp orada olmadığını anlayana kadar, ona ne kadar ihtiyacınız olduğunu anlayamazsınız. Promiselerin tüm amacı asenkronluğu düştüğümüzde kaybettiğimiz dil temellerini bize geri vermektir: return, throw, ve yığın. Fakat promislerden avantaj sağlamak için onların nasıl kullanılması gerektiğini bilmek gerekir.
 
-### Blog Alıntısı: "Vaat metodu çok daha kompakttır"
+### Blog Alıntısı: "Promise metodu çok daha kompakttır"
 blog gosquared.com'dan
  
- > ………Vaat metodu çok daha kompakt, açık ve yazması hızlıdır. Eğer işlemler arasında bir hata veya istisna gerçekleşirse .catch() denetleyicisiyle denetlenir. Tüm hataların denetimi için tek bir komut olması çalışmanın her adımında hata kontrolü yapılmasına gerek olmadığı anlamına gelmektedir.
+ > ………Promise metodu çok daha kompakt, açık ve yazması hızlıdır. Eğer işlemler arasında bir hata veya istisna gerçekleşirse .catch() denetleyicisiyle denetlenir. Tüm hataların denetimi için tek bir komut olması çalışmanın her adımında hata kontrolü yapılmasına gerek olmadığı anlamına gelmektedir.
 
-### Blog Alıntısı: "Vaatler jeneratörlerle kullanılabilen yerli ES6'lardır"
+### Blog Alıntısı: "Promiseler üreteçler(generators) ile kullanılabilen yerli ES6'lardır"
 blog StrongLoop'dan
  
- > ….Geri aramalar kötü bir hata-denetimi geçmişine sahiptir. Vaatler daha iyidir. Express'teki yerleşik hata denetimiyle vaatleri birleştirin ve yakalanmayan istisnaların olma ihtimalini önemli ölçüde azaltın. Vaatler jeneratörlerle ve ES7 gibi Babel gibi derleyiciler üzerinden eş zamansızlama/bekletme yapan tekliflerle kullanılabilen yerli ES6'lardır.
+ > ….Geri çağırımlar kötü bir hata-denetimi geçmişine sahiptir. Promiseler daha iyidir. Express'teki yerleşik hata denetimiyle promisleri birleştirin ve yakalanmayan istisnaların olma ihtimalini önemli ölçüde azaltın. Promisler ES6'da doğuştan vardır. Üreteçler ile ve ES7'nin Babel gibi asyn/await destekleyen derleyiciler gibi önermeleri ile kullanılabilir.
 
 ### Blog Alıntısı: "Alıştığınız bütün düzenli akış kontrol yapıları tamamen yıkılmış durumda"
 blog Benno’s'dan
  
- > ……Asinkronla ilgili en iyi şeylerden biri, geri arama temelli programlama temel olarak alıştığınız ve tamamen yıkılmış durumda olan düzenli akış kontrol yapısı olmasıdır. Ama, en bozuk durumda bulduğum istisnaları denetleme. İstisnaları denetlemek için Javascript çok tanıdık bir deneme-yakalama yapısı sağlar. İstisnalarla ilgili problem ise, bir çağrı yığınının üstünden kısa-yol hataları sağlarlar, fakat hata tamamen farklı bir yığında gerçekleştiğinde tamamen işe yaramaz olarak sonlanır…
+ > ……Asenkron ile ilgili en iyi şeylerden biri, geri çağırım temelli programlama da temel olarak alıştığınız ve tamamen yıkılmış durumda olan düzenli akış kontrol yapısı olmasıdır. Ama, en bozuk durumda bulduğum şey ise istisnaları denetlemedir. İstisnaları denetlemek için Javascript çok tanıdık bir try-catch yapısı sağlar. İstisnalarla ilgili problem ise, bir çağrı yığınının üstünden kısa-yol hataları sağlarlar, fakat hata tamamen farklı bir yığında gerçekleştiğinde tamamen işe yaramaz olarak sonlanır…
